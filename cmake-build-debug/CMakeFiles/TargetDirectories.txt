@@ -1,0 +1,3 @@
+C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/cmake-build-debug/CMakeFiles/erp_system_solution.dir
+C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/cmake-build-debug/CMakeFiles/rebuild_cache.dir
