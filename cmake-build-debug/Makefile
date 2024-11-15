@@ -200,6 +200,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/main.c.s
 .PHONY : main.c.s
 
+salary.obj: salary.c.obj
+.PHONY : salary.obj
+
+# target to build an object file
+salary.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/salary.c.obj
+.PHONY : salary.c.obj
+
+salary.i: salary.c.i
+.PHONY : salary.i
+
+# target to preprocess a source file
+salary.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/salary.c.i
+.PHONY : salary.c.i
+
+salary.s: salary.c.s
+.PHONY : salary.s
+
+# target to generate assembly for a file
+salary.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/salary.c.s
+.PHONY : salary.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -218,6 +242,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... salary.obj
+	@echo ... salary.i
+	@echo ... salary.s
 .PHONY : help
 
 

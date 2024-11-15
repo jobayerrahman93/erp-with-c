@@ -96,6 +96,9 @@
 		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/main.c">
 			<Option target="erp_system_solution"/>
 		</Unit>
+		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/salary.c">
+			<Option target="erp_system_solution"/>
+		</Unit>
 		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

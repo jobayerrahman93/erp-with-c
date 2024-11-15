@@ -33,7 +33,7 @@ int main()
             case 2:
                 if (employeeLogin())
                 {
-                    employeePanel();  // Employee panel will handle logging out
+                    employeePanel();
                 }
                 else
                 {

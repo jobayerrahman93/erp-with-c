@@ -1,9 +1,0 @@
-# ninja log v6
-6	266	7482154731785533	CMakeFiles/erp_system_solution.dir/main.c.obj	da4065504013503b
-22	309	7482154731946063	CMakeFiles/erp_system_solution.dir/employee.c.obj	d0f786a643df16d9
-17	322	7482154731895897	CMakeFiles/erp_system_solution.dir/admin.c.obj	273a0594ceb826e5
-322	457	7482154734941044	erp_system_solution.exe	27f32e18a250cf58
-11	143	7482160019695769	CMakeFiles/erp_system_solution.dir/admin.c.obj	273a0594ceb826e5
-144	289	7482160021020205	erp_system_solution.exe	27f32e18a250cf58
-10	145	7482161693686609	CMakeFiles/erp_system_solution.dir/admin.c.obj	273a0594ceb826e5
-145	289	7482161695046150	erp_system_solution.exe	27f32e18a250cf58

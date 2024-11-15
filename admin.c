@@ -1,25 +1,23 @@
 // admin.c
 #include "erp.h"
-#include <time.h>
 
 
 int validateCredentials(const char *line, const char *userEmail, const char *password)
 {
-    int storedId;
-    char storedName[50];
-    char storedUserEmail[50];
-    char storedPassword[50];
+    int storedId, storedStatus;
+    char storedName[50], storedUserEmail[50], storedPassword[50], storedCreatedAt[20];
 
-    // Parse the input line
-    if (sscanf(line, "id:%d, name:%49[^,], email:%49[^,], password:%49[^,]", &storedId, storedName, storedUserEmail, storedPassword))
+    // Parse the CSV line for quoted fields
+    if (sscanf(line, "%d,\"%49[^\"]\",\"%49[^\"]\",\"%49[^\"]\",%d,\"%19[^\"]\"",
+               &storedId, storedName, storedUserEmail, storedPassword, &storedStatus, storedCreatedAt) == 6)
     {
-
         // Check if the parsed email and password match the input
         if (strcmp(userEmail, storedUserEmail) == 0 && strcmp(password, storedPassword) == 0)
         {
             return 1; // Login successful
         }
     }
+
     return 0; // Login failed
 }
 
@@ -78,11 +76,12 @@ void adminPanel()
         printf("\n______________ERP Management System  - Admin Panel______________\n\n");
         printf("1. Add Employee\n");
         printf("2. View Employees\n");
-        printf("3. Calculate Payroll\n");
-        printf("4. Generate and Send Salary Report\n");
-        printf("5. Add Admin\n");
-        printf("6. View Admin\n");
-        printf("7. Logout\n\n");
+        printf("3. Payroll\n");
+        printf("4. View Payroll\n");
+        printf("5. Generate and Send Salary Report\n");
+        printf("6. Add Admin\n");
+        printf("7. View Admin\n");
+        printf("8. Logout\n\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -98,17 +97,19 @@ void adminPanel()
             break;
             case 3:
                 calculatePayroll();
-            break;
             case 4:
-                generateSalaryReport();
+                viewPayroll();
             break;
             case 5:
-                insertAdmin();
+                generateSalaryReport();
             break;
             case 6:
-                viewAllAdmin();
+                insertAdmin();
             break;
             case 7:
+                viewAllAdmin();
+            break;
+            case 8:
                 printf("Logging out...\n");
             logoutFlag = 1;
             break;
@@ -146,52 +147,65 @@ int getNextAdminID()
 // insert admin
 void insertAdmin()
 {
-    FILE *file = fopen("user_admin.csv", "a"); // Open file in append mode
+    FILE *file = fopen("user_admin.csv", "a+"); // Open file in append mode with read capability
     if (file == NULL)
     {
         printf("Unable to open file.\n");
         return;
     }
 
-    char user_pass[50];
-    char user_email[50];
+    // Check if the file is empty
+    fseek(file, 0, SEEK_END);
+    if (ftell(file) == 0)
+    {
+        // Write the header if the file is empty
+        fprintf(file, "id,name,email,password,status,created_at\n");
+        printf("Header added to the file.\n");
+    }
+
     Admin adm;
-    adm.id = getNextAdminID(); // Generate a unique ID
+    char user_pass[50];
+
+    // Generate a unique ID for the admin
+    adm.id = getNextAdminID();
     printf("Generated Admin ID: %d\n", adm.id);
+
+    // Get admin details
     printf("Enter Admin Name: ");
-    scanf(" %[^\n]s", adm.name); // To read string with spaces
+    scanf(" %[^\n]s", adm.name);
+
     printf("Enter Admin Email: ");
     scanf("%s", adm.email);
+
     printf("Enter Admin Password: ");
     scanf("%s", user_pass);
 
+    // Check password length
     if (strlen(user_pass) < 7)
     {
-        printf("Error: Password cannot be less than 7\n\n");
+        printf("Error: Password cannot be less than 7 characters.\n\n");
+        fclose(file);
         return;
     }
 
-        strcpy(adm.password, user_pass);
+    strcpy(adm.password, user_pass);
 
     // Get the current time
     time_t t;
     char buffer[11];
-
-    // Get the current calendar time
     time(&t);
-
-    // Format the time into a string
     strftime(buffer, sizeof(buffer), "%Y-%m-%d", localtime(&t));
 
-    // Copied for initialization to created_at
     strcpy(adm.created_at, buffer);
-    adm.status = 1;
+    adm.status = 1; // Active status
 
-    fprintf(file, "id:%d, name:%s, email:%s, password:%s, status:%d, created_at:%s\n", adm.id, adm.name, adm.email, adm.password, adm.status, adm.created_at);
+    // Write admin data to the file
+    fprintf(file, "%d,\"%s\",\"%s\",\"%s\",%d,\"%s\"\n",
+            adm.id, adm.name, adm.email, adm.password, adm.status, adm.created_at);
+
     fclose(file);
 
     printf("Admin added successfully!\n");
-    return;
 }
 
 // view all admin list

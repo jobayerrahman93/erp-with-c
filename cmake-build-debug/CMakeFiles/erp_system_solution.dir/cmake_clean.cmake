@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/erp_system_solution.dir/employee.c.obj.d"
   "CMakeFiles/erp_system_solution.dir/main.c.obj"
   "CMakeFiles/erp_system_solution.dir/main.c.obj.d"
+  "CMakeFiles/erp_system_solution.dir/salary.c.obj"
+  "CMakeFiles/erp_system_solution.dir/salary.c.obj.d"
   "erp_system_solution.exe"
   "erp_system_solution.exe.manifest"
   "erp_system_solution.pdb"
