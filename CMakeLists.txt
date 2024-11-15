@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(erp_system_solution main.c admin.c erp.h
         employee.c
-        salary.c)
+        salary.c
+        emp_salary.c)
 
 

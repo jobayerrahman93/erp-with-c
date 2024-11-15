@@ -31,14 +31,13 @@ int main()
             break;
 
             case 2:
-                if (employeeLogin())
-                {
-                    employeePanel();
-                }
-                else
-                {
-                    printf("Email or password is wrong. Exiting...\n");
-                }
+
+                char* loggedInEmail = employeeLogin();
+            if (loggedInEmail != NULL) {
+                employeePanel(loggedInEmail);  // Pass the email to employeePanel
+            } else {
+                printf("Email or password is wrong. Exiting...\n");
+            }
             break;
 
             case 3:

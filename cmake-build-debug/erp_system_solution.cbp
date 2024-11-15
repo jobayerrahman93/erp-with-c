@@ -87,6 +87,9 @@
 		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/admin.c">
 			<Option target="erp_system_solution"/>
 		</Unit>
+		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/emp_salary.c">
+			<Option target="erp_system_solution"/>
+		</Unit>
 		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/employee.c">
 			<Option target="erp_system_solution"/>
 		</Unit>

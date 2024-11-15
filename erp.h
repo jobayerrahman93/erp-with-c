@@ -58,9 +58,10 @@ int getNextEmployeeID();
 int getNextAdminID();
 void insertAdmin();
 void viewAllAdmin();
-int employeeLogin();
-void employeePanel();
+char* employeeLogin();
+void employeePanel(char myEmail[]);
 void payroll();
-void viewPayroll();
+void viewMyPayroll(char myEmail[]);
+
 
 #endif // ERP_H

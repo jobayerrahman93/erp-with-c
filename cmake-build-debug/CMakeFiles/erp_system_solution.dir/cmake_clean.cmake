@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/erp_system_solution.dir/admin.c.obj"
   "CMakeFiles/erp_system_solution.dir/admin.c.obj.d"
+  "CMakeFiles/erp_system_solution.dir/emp_salary.c.obj"
+  "CMakeFiles/erp_system_solution.dir/emp_salary.c.obj.d"
   "CMakeFiles/erp_system_solution.dir/employee.c.obj"
   "CMakeFiles/erp_system_solution.dir/employee.c.obj.d"
   "CMakeFiles/erp_system_solution.dir/main.c.obj"

@@ -3,64 +3,47 @@
 
 
 // Employee Login
-int employeeLogin()
-{
-    char userEmail[50], password[50];
+#include "erp.h"
+
+// Function that checks employee login credentials
+// It returns the email of the logged-in employee or NULL if the login fails
+char* employeeLogin() {
+    static char loggedInEmail[100];  // Static so it persists after the function ends
+    char inputEmail[100], inputPassword[100];
+    FILE *employeeFile = fopen("employees.csv", "r");
+
+    if (employeeFile == NULL) {
+        printf("Unable to open employee file.\n");
+        return NULL;
+    }
+
+    printf("Enter email: ");
+    scanf("%s", inputEmail);
+
+    printf("\nEnter password: ");
+    scanf("%s", inputPassword);
+
     char line[MAX_LINE_LENGTH];
-    char storedName[50], storedUserEmail[50], storedPassword[50], storedDesignation[50];
-    int storedId, storedStatus;
-    double storedSalary;
-    char createdAt[20];
 
-    // Prompt for email and password
-    printf("Enter Employee Email: ");
-    scanf("%s", userEmail);
-    printf("\nEnter Employee Password: ");
-    scanf("%s", password);
-
-    // Open the employees.csv file for reading
-    FILE *file = fopen("employees.csv", "r");
-    if (file == NULL)
-    {
-        printf("Unable to open employees file.\n");
-        return 0;
-    }
-
-    int loginSuccessful = 0;
-    while (fgets(line, sizeof(line), file))
-    {
-        // Use sscanf to parse the line from the CSV
-        if (sscanf(line, "%d,\"%49[^\"]\",\"%49[^\"]\",%lf,\"%49[^\"]\",\"%49[^\"]\",%d,\"%19[^\"]\"",
-
-                   &storedId, storedName, storedUserEmail, &storedSalary, storedDesignation, storedPassword, &storedStatus, createdAt))
-        {
-            // Validate credentials
-            if (strcmp(userEmail, storedUserEmail) == 0 && strcmp(password, storedPassword) == 0)
-            {
-                loginSuccessful = 1;
-                break;
+    while (fgets(line, sizeof(line), employeeFile)) {
+        Employee emp;
+        if (sscanf(line, "%d,\"%99[^\"]\",\"%99[^\"]\",%f,\"%99[^\"]\",\"%29[^\"]\",%d,\"%99[^\"]\"",
+                   &emp.id, emp.name, emp.email, &emp.salary, emp.designation, emp.password, &emp.status, emp.created_at)) {
+            if (strcmp(emp.email, inputEmail) == 0 && strcmp(emp.password, inputPassword) == 0) {
+                strcpy(loggedInEmail, emp.email);  // Store the logged-in employee's email
+                fclose(employeeFile);
+                return loggedInEmail;  // Return the email of the logged-in employee
             }
-        }
+                   }
     }
 
-    fclose(file);
-
-    if (loginSuccessful)
-    {
-        printf("Login successful!\n\n");
-
-        printf("Welcome, %s (Designation: %s)\n", storedName, storedDesignation);
-        return 1;
-    }
-    else
-    {
-
-        return 0;
-    }
+    fclose(employeeFile);
+    printf("Invalid email or password.\n");
+    return NULL;  // Return NULL if login fails
 }
 
 // employee panel
-void employeePanel()
+void employeePanel(char myEmail[])
 {
     int choice;
     int logoutFlag = 0;  // Flag to control when to log out
@@ -86,7 +69,7 @@ void employeePanel()
                 printf("This module is under development\n");
             break;
             case 3:
-                printf("This module is under development\n");
+                viewMyPayroll(myEmail);
             break;
             case 4:
                 printf("Logging out...\n");

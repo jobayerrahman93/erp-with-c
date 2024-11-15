@@ -152,6 +152,30 @@ admin.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/admin.c.s
 .PHONY : admin.c.s
 
+emp_salary.obj: emp_salary.c.obj
+.PHONY : emp_salary.obj
+
+# target to build an object file
+emp_salary.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/emp_salary.c.obj
+.PHONY : emp_salary.c.obj
+
+emp_salary.i: emp_salary.c.i
+.PHONY : emp_salary.i
+
+# target to preprocess a source file
+emp_salary.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/emp_salary.c.i
+.PHONY : emp_salary.c.i
+
+emp_salary.s: emp_salary.c.s
+.PHONY : emp_salary.s
+
+# target to generate assembly for a file
+emp_salary.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/emp_salary.c.s
+.PHONY : emp_salary.c.s
+
 employee.obj: employee.c.obj
 .PHONY : employee.obj
 
@@ -236,6 +260,9 @@ help:
 	@echo ... admin.obj
 	@echo ... admin.i
 	@echo ... admin.s
+	@echo ... emp_salary.obj
+	@echo ... emp_salary.i
+	@echo ... emp_salary.s
 	@echo ... employee.obj
 	@echo ... employee.i
 	@echo ... employee.s

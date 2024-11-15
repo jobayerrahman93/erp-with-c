@@ -97,6 +97,7 @@ void adminPanel()
             break;
             case 3:
                 calculatePayroll();
+            break;
             case 4:
                 viewPayroll();
             break;
