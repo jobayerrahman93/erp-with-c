@@ -60,7 +60,7 @@ void insertAdmin();
 void viewAllAdmin();
 char* employeeLogin();
 void employeePanel(char myEmail[]);
-void payroll();
+void insertPayroll();
 void viewPayrollForAdmin();
 void viewMyPayroll(char myEmail[]);
 void addRequisition(int employeeId);
@@ -68,6 +68,9 @@ int getEmployeeIdByEmail(char *email);
 const char *getEmployeeNameById(int id);
 void viewRequisition(int employeeId);
 void viewAllRequisitionForAdmin();
+void addActivity(int employeeId);
+void viewActivities(int employeeId);
+void viewActivitiesForAdmin();
 
 
 #endif // ERP_H

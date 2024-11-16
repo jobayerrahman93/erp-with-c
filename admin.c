@@ -82,7 +82,7 @@ void adminPanel()
         printf("6. Add Admin\n");
         printf("7. View Admin\n");
         printf("8. View Requistion\n");
-        printf("8. View Activites\n");
+        printf("9. View Activites\n");
         printf("10. Logout\n\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -114,9 +114,10 @@ void adminPanel()
             break;
             case 8:
                 viewAllRequisitionForAdmin();
+
             break;
             case 9:
-                viewAllRequisitionForAdmin();
+                viewActivitiesForAdmin();
             break;
             case 10:
                 printf("Logging out...\n");
@@ -136,10 +137,16 @@ int getNextAdminID()
 
     if (file)
     {
-        char line[200];
+        char line[MAX_LINE_LENGTH];
+
+        // Skip the header line
+        fgets(line, sizeof(line), file);
+
+        // Read each line and extract the ID
         while (fgets(line, sizeof(line), file))
         {
-            if (sscanf(line, "id:%d,", &id) == 1)
+            // Parse the line: format for parsing the CSV entry
+            if (sscanf(line, "%d,\"%*[^,]\",\"%*[^,]\",%*[^,],%d,\"%*[^,]\"", &id) == 1)
             {
                 if (id > maxID)
                 {
@@ -150,7 +157,7 @@ int getNextAdminID()
         fclose(file);
     }
 
-    return maxID + 1;
+    return maxID + 1;  // The next available ID is the max ID + 1
 }
 
 // insert admin
@@ -233,11 +240,17 @@ void viewAllAdmin()
     Admin adm;
     char line[256]; // Buffer to hold each line
 
+    // Skip the header line
+    fgets(line, sizeof(line), file);
+
     // Read each line in the file
     while (fgets(line, sizeof(line), file))
     {
-        // Adjusted sscanf format string with spaces after commas
-        if (sscanf(line, "id:%d, name: %49[^,], email: %49[^,], password:%*[^,], status:%d, created_at:%49[^\n]",
+        // Remove newline characters from the end of the line
+        line[strcspn(line, "\n")] = '\0';
+
+        // Use sscanf to parse the line properly
+        if (sscanf(line, "%d,\"%49[^\"]\",\"%49[^\"]\",%*[^,],%d,\"%49[^\"]\"",
                    &adm.id, adm.name, adm.email, &adm.status, adm.created_at) == 5)
         {
             // Print the admin information

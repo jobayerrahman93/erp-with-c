@@ -60,7 +60,9 @@ void employeePanel(char myEmail[])
         printf("1. Add Requisition\n");
         printf("2. View Requisition\n");
         printf("3. My Payroll\n");
-        printf("4. Logout\n\n");
+        printf("4. Add Activities\n");
+        printf("5. View Activities\n");
+        printf("6. Logout\n\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -78,6 +80,12 @@ void employeePanel(char myEmail[])
                 viewMyPayroll(myEmail);
             break;
             case 4:
+                addActivity(employeeId);;
+            break;
+            case 5:
+                viewActivities(employeeId);
+            break;
+            case 6:
                 printf("Logging out...\n");
             logoutFlag = 1;
             break;
@@ -170,14 +178,17 @@ void viewAllEmployee()
     printf("ID, Name, Email, Salary, Designation, Status, Created At\n");
 
     Employee emp;
-    char line[256]; // Buffer to hold each line
+    char line[MAX_LINE_LENGTH]; // Buffer to hold each line
+
+    // Skip the header line
+    fgets(line, sizeof(line), file);
 
     // Read each line in the file
     while (fgets(line, sizeof(line), file))
     {
-        // Use sscanf to parse the line with labels and spaces after commas
-        if (sscanf(line, "id:%d, name: %99[^,], email: %99[^,], salary:%f, designation: %99[^,], password:%*[^,], status:%d, created_at:%99[^\n]",
-                   &emp.id, emp.name, emp.email, &emp.salary, emp.designation, &emp.status, emp.created_at) == 7)
+        // Use sscanf to parse the line without prefixes like "id:", "name:", etc.
+        if (sscanf(line, "%d,%99[^,],%99[^,],%f,%99[^,],%99[^,],%d,%99[^\n]",
+                   &emp.id, emp.name, emp.email, &emp.salary, emp.designation, emp.password, &emp.status, emp.created_at) == 8)
         {
             // Print the employee information
             printf("%d, %s, %s, %.2f, %s, %d, %s\n", emp.id, emp.name, emp.email, emp.salary, emp.designation, emp.status, emp.created_at);
@@ -190,75 +201,8 @@ void viewAllEmployee()
 //calculate payroll
 void calculatePayroll()
 {
-    payroll();
+    insertPayroll();
 }
-
-void viewPayroll() {
-    printf("------------------View Payroll Records------------------\n");
-
-    FILE *salaryFile = fopen("emp_salary.csv", "r"); // Open the salary file to read salary records
-    if (salaryFile == NULL) {
-        printf("Unable to open salary file.\n");
-        return;
-    }
-
-    char line[MAX_LINE_LENGTH];
-    char filterMonth[20];
-    int filterChoice;
-
-    // Ask the user if they want to filter by month
-    printf("Do you want to filter records by a specific month? (1 for Yes, 2 for No): ");
-    scanf("%d", &filterChoice);
-
-    if (filterChoice == 1) {
-        printf("Enter the month to filter records (YYYY-MM format): ");
-        scanf("%s", filterMonth);
-    }
-
-    // Read and display records
-    int recordFound = 0; // To check if any record exists
-    printf("\n%-5s %-20s %-15s %-10s %-10s %-15s %-10s %-15s\n",
-           "ID", "Name", "Base Salary", "Additions", "Deductions",
-           "Total Salary", "Month", "Paid Date");
-    printf("------------------------------------------------------------------------------------------\n");
-
-    while (fgets(line, sizeof(line), salaryFile)) {
-        // Skip the header row
-        if (strncmp(line, "id,", 3) == 0) {
-            continue;
-        }
-
-        SalaryRecord salaryRecord;
-        if (sscanf(line, "%d,%49[^,],%lf,%lf,%lf,%lf,%19[^,],%19[^\n]",
-                   &salaryRecord.id, salaryRecord.name, &salaryRecord.base_salary,
-                   &salaryRecord.additions, &salaryRecord.deductions, &salaryRecord.total_salary,
-                   salaryRecord.month, salaryRecord.paid_date)) {
-
-            // Apply the filter if chosen
-            if (filterChoice == 1 && strcmp(salaryRecord.month, filterMonth) != 0) {
-                continue; // Skip records that do not match the filter
-            }
-
-            // Display the record
-            printf("%-5d %-20s %-15.2f %-10.2f %-10.2f %-15.2f %-10s %-15s\n",
-                   salaryRecord.id, salaryRecord.name, salaryRecord.base_salary,
-                   salaryRecord.additions, salaryRecord.deductions, salaryRecord.total_salary,
-                   salaryRecord.month, salaryRecord.paid_date);
-            recordFound = 1;
-        }
-    }
-
-    if (!recordFound) {
-        if (filterChoice == 1) {
-            printf("No records found for the month %s.\n", filterMonth);
-        } else {
-            printf("No records found.\n");
-        }
-    }
-
-    fclose(salaryFile);
-}
-
 
 void generateSalaryReport()
 {

@@ -1,6 +1,9 @@
 #include "erp.h"
+char line[MAX_LINE_LENGTH];
 
-void payroll() {
+
+
+void insertPayroll() {
     printf("Calculate Payroll Functionality\n");
 
     FILE *file = fopen("employees.csv", "r"); // Open the employee file to read base salary
@@ -22,7 +25,8 @@ void payroll() {
         fprintf(salaryFile, "id,name,base_salary,additions,deductions,total_salary,month,paid_date\n");
     }
 
-    rewind(file); // Reset the file pointer to allow proper handling later
+    rewind(file); // Reset the file pointer to the start
+    fgets(line, sizeof(line), file); // Skip the header line in the employee file
 
     char line[MAX_LINE_LENGTH];
     char month[20];
@@ -130,6 +134,7 @@ void payroll() {
     } else if (choice == 2) {
         // Process payroll for all employees
         rewind(file); // Reset file pointer
+        fgets(line, sizeof(line), file); // Skip the header line
         while (fgets(line, sizeof(line), file)) {
             Employee emp;
             if (sscanf(line, "%d,\"%99[^\"]\",\"%99[^\"]\",%f,\"%99[^\"]\",\"%29[^\"]\",%d,\"%99[^\"]\"",
@@ -193,6 +198,7 @@ void payroll() {
 
 
 
+
 void viewPayrollForAdmin() {
     printf("View Payroll - Admin Panel\n");
 
@@ -222,26 +228,44 @@ void viewPayrollForAdmin() {
            "Total Salary", "Month", "Paid Date");
     printf("------------------------------------------------------------------------------------------\n");
 
+    // Skip the header row
+    if (fgets(line, sizeof(line), salaryFile) == NULL) {
+        printf("No data found in the file.\n");
+        fclose(salaryFile);
+        return;
+    }
+
     // Read and display salary records
     while (fgets(line, sizeof(line), salaryFile)) {
-        SalaryRecord salaryRecord;
-        if (sscanf(line, "%d,%49[^,],%lf,%lf,%lf,%lf,%19[^,],%19[^\n]",
-                   &salaryRecord.id, salaryRecord.name, &salaryRecord.base_salary,
-                   &salaryRecord.additions, &salaryRecord.deductions, &salaryRecord.total_salary,
-                   salaryRecord.month, salaryRecord.paid_date)) {
+        // Remove trailing newline character
+        line[strcspn(line, "\n")] = 0;
 
-            // Apply the filter if chosen
-            if (filterChoice == 1 && strcmp(salaryRecord.month, filterMonth) != 0) {
-                continue; // Skip records that do not match the filter
-            }
-
-            // Display the record
-            printf("%-5d %-20s %-15.2f %-10.2f %-10.2f %-15.2f %-10s %-15s\n",
-                   salaryRecord.id, salaryRecord.name, salaryRecord.base_salary,
-                   salaryRecord.additions, salaryRecord.deductions, salaryRecord.total_salary,
-                   salaryRecord.month, salaryRecord.paid_date);
-            recordFound = 1;
+        // Skip empty lines
+        if (line[0] == '\0') {
+            continue;
         }
+
+        SalaryRecord salaryRecord;
+        // Parse the line and ensure all fields are valid
+        int fieldsParsed = sscanf(line, "%d,%49[^,],%lf,%lf,%lf,%lf,%19[^,],%19[^\n]",
+                                  &salaryRecord.id, salaryRecord.name, &salaryRecord.base_salary,
+                                  &salaryRecord.additions, &salaryRecord.deductions, &salaryRecord.total_salary,
+                                  salaryRecord.month, salaryRecord.paid_date);
+        if (fieldsParsed != 8) {
+            continue; // Skip invalid or incomplete lines
+        }
+
+        // Apply the filter if chosen
+        if (filterChoice == 1 && strcmp(salaryRecord.month, filterMonth) != 0) {
+            continue; // Skip records that do not match the filter
+        }
+
+        // Display the record
+        printf("%-5d %-20s %-15.2f %-10.2f %-10.2f %-15.2f %-10s %-15s\n",
+               salaryRecord.id, salaryRecord.name, salaryRecord.base_salary,
+               salaryRecord.additions, salaryRecord.deductions, salaryRecord.total_salary,
+               salaryRecord.month, salaryRecord.paid_date);
+        recordFound = 1;
     }
 
     if (!recordFound) {
@@ -254,7 +278,6 @@ void viewPayrollForAdmin() {
 
     fclose(salaryFile);
 }
-
 
 
 void viewMyPayroll(char myEmail[]) {
@@ -279,6 +302,8 @@ void viewMyPayroll(char myEmail[]) {
     int filterChoice;
     int employeeId = 0;
     int recordFound = 0; // To check if any record exists
+    char shownMonths[100][20];  // Array to store months already shown
+    int shownMonthsCount = 0;    // Counter for how many months we've already displayed
 
     // Find the employee ID by email
     while (fgets(line, sizeof(line), employeeFile)) {
@@ -314,6 +339,7 @@ void viewMyPayroll(char myEmail[]) {
            "Total Salary", "Month", "Paid Date");
     printf("------------------------------------------------------------------------------------------\n");
 
+    // Read the salary records file
     while (fgets(line, sizeof(line), salaryFile)) {
         SalaryRecord salaryRecord;
         if (sscanf(line, "%d,%49[^,],%lf,%lf,%lf,%lf,%19[^,],%19[^\n]",
@@ -331,11 +357,31 @@ void viewMyPayroll(char myEmail[]) {
                 continue; // Skip records that do not match the filter
             }
 
+
+            // Check if this month has already been shown for this employee
+            int isDuplicateMonth = 0;
+            for (int i = 0; i < shownMonthsCount; i++) {
+                if (strcmp(shownMonths[i], salaryRecord.month) == 0) {
+                    isDuplicateMonth = 1;
+                    break;
+                }
+            }
+
+            // Debugging: Output the result of checking if the month is duplicate
+            if (isDuplicateMonth) {
+                continue; // Skip displaying this record, since it's a duplicate month for the employee
+            }
+
             // Display the record
             printf("%-5d %-20s %-15.2f %-10.2f %-10.2f %-15.2f %-10s %-15s\n",
                    salaryRecord.id, salaryRecord.name, salaryRecord.base_salary,
                    salaryRecord.additions, salaryRecord.deductions, salaryRecord.total_salary,
                    salaryRecord.month, salaryRecord.paid_date);
+
+            // Mark this month as shown for this employee
+            strcpy(shownMonths[shownMonthsCount], salaryRecord.month);
+            shownMonthsCount++;
+
             recordFound = 1;
         }
     }
@@ -351,4 +397,6 @@ void viewMyPayroll(char myEmail[]) {
     fclose(salaryFile);
     fclose(employeeFile);
 }
+
+
 

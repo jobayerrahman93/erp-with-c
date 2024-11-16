@@ -1,3 +1,4 @@
 id,name,email,salary,designation,password,status,created_at
 1,"ikram","i@gmail.com",44000.00,"ceo","1234567",1,"2024-11-15"
 2,"imon","im@gmail.com",50000.00,"chef","12345678",1,"2024-11-15"
+3,"masum","m@gmail.com",32000.00,"devs","1234567",1,"2024-11-16"
