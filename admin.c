@@ -81,7 +81,9 @@ void adminPanel()
         printf("5. Generate and Send Salary Report\n");
         printf("6. Add Admin\n");
         printf("7. View Admin\n");
-        printf("8. Logout\n\n");
+        printf("8. View Requistion\n");
+        printf("8. View Activites\n");
+        printf("10. Logout\n\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -99,7 +101,7 @@ void adminPanel()
                 calculatePayroll();
             break;
             case 4:
-                viewPayroll();
+                viewPayrollForAdmin();
             break;
             case 5:
                 generateSalaryReport();
@@ -111,6 +113,12 @@ void adminPanel()
                 viewAllAdmin();
             break;
             case 8:
+                viewAllRequisitionForAdmin();
+            break;
+            case 9:
+                viewAllRequisitionForAdmin();
+            break;
+            case 10:
                 printf("Logging out...\n");
             logoutFlag = 1;
             break;

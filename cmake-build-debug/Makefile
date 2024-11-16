@@ -152,29 +152,29 @@ admin.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/admin.c.s
 .PHONY : admin.c.s
 
-emp_salary.obj: emp_salary.c.obj
-.PHONY : emp_salary.obj
+emp_activity.obj: emp_activity.c.obj
+.PHONY : emp_activity.obj
 
 # target to build an object file
-emp_salary.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/emp_salary.c.obj
-.PHONY : emp_salary.c.obj
+emp_activity.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/emp_activity.c.obj
+.PHONY : emp_activity.c.obj
 
-emp_salary.i: emp_salary.c.i
-.PHONY : emp_salary.i
+emp_activity.i: emp_activity.c.i
+.PHONY : emp_activity.i
 
 # target to preprocess a source file
-emp_salary.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/emp_salary.c.i
-.PHONY : emp_salary.c.i
+emp_activity.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/emp_activity.c.i
+.PHONY : emp_activity.c.i
 
-emp_salary.s: emp_salary.c.s
-.PHONY : emp_salary.s
+emp_activity.s: emp_activity.c.s
+.PHONY : emp_activity.s
 
 # target to generate assembly for a file
-emp_salary.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/emp_salary.c.s
-.PHONY : emp_salary.c.s
+emp_activity.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/emp_activity.c.s
+.PHONY : emp_activity.c.s
 
 employee.obj: employee.c.obj
 .PHONY : employee.obj
@@ -224,6 +224,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/main.c.s
 .PHONY : main.c.s
 
+requisition.obj: requisition.c.obj
+.PHONY : requisition.obj
+
+# target to build an object file
+requisition.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/requisition.c.obj
+.PHONY : requisition.c.obj
+
+requisition.i: requisition.c.i
+.PHONY : requisition.i
+
+# target to preprocess a source file
+requisition.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/requisition.c.i
+.PHONY : requisition.c.i
+
+requisition.s: requisition.c.s
+.PHONY : requisition.s
+
+# target to generate assembly for a file
+requisition.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\erp_system_solution.dir\build.make CMakeFiles/erp_system_solution.dir/requisition.c.s
+.PHONY : requisition.c.s
+
 salary.obj: salary.c.obj
 .PHONY : salary.obj
 
@@ -260,15 +284,18 @@ help:
 	@echo ... admin.obj
 	@echo ... admin.i
 	@echo ... admin.s
-	@echo ... emp_salary.obj
-	@echo ... emp_salary.i
-	@echo ... emp_salary.s
+	@echo ... emp_activity.obj
+	@echo ... emp_activity.i
+	@echo ... emp_activity.s
 	@echo ... employee.obj
 	@echo ... employee.i
 	@echo ... employee.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... requisition.obj
+	@echo ... requisition.i
+	@echo ... requisition.s
 	@echo ... salary.obj
 	@echo ... salary.i
 	@echo ... salary.s

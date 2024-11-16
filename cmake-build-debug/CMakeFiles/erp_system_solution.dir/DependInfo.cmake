@@ -9,9 +9,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/admin.c" "CMakeFiles/erp_system_solution.dir/admin.c.obj" "gcc" "CMakeFiles/erp_system_solution.dir/admin.c.obj.d"
-  "C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/emp_salary.c" "CMakeFiles/erp_system_solution.dir/emp_salary.c.obj" "gcc" "CMakeFiles/erp_system_solution.dir/emp_salary.c.obj.d"
+  "C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/emp_activity.c" "CMakeFiles/erp_system_solution.dir/emp_activity.c.obj" "gcc" "CMakeFiles/erp_system_solution.dir/emp_activity.c.obj.d"
   "C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/employee.c" "CMakeFiles/erp_system_solution.dir/employee.c.obj" "gcc" "CMakeFiles/erp_system_solution.dir/employee.c.obj.d"
   "C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/main.c" "CMakeFiles/erp_system_solution.dir/main.c.obj" "gcc" "CMakeFiles/erp_system_solution.dir/main.c.obj.d"
+  "C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/requisition.c" "CMakeFiles/erp_system_solution.dir/requisition.c.obj" "gcc" "CMakeFiles/erp_system_solution.dir/requisition.c.obj.d"
   "C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/salary.c" "CMakeFiles/erp_system_solution.dir/salary.c.obj" "gcc" "CMakeFiles/erp_system_solution.dir/salary.c.obj.d"
   )
 

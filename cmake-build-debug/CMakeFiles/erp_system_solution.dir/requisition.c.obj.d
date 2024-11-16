@@ -1,5 +1,5 @@
-CMakeFiles/erp_system_solution.dir/emp_salary.c.obj: \
- C:\Users\Kowshik\OneDrive\Desktop\project\erp-with-cplus-main\emp_salary.c \
+CMakeFiles/erp_system_solution.dir/requisition.c.obj: \
+ C:\Users\Kowshik\OneDrive\Desktop\project\erp-with-cplus-main\requisition.c \
  C:\Users\Kowshik\OneDrive\Desktop\project\erp-with-cplus-main\erp.h \
  C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/x86_64-w64-mingw32/include/stdio.h \
  C:/Program\ Files/JetBrains/CLion\ 2024.1.4/bin/mingw/x86_64-w64-mingw32/include/corecrt_stdio_config.h \

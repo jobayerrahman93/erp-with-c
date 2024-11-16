@@ -5,8 +5,7 @@
 // Employee Login
 #include "erp.h"
 
-// Function that checks employee login credentials
-// It returns the email of the logged-in employee or NULL if the login fails
+
 char* employeeLogin() {
     static char loggedInEmail[100];  // Static so it persists after the function ends
     char inputEmail[100], inputPassword[100];
@@ -45,8 +44,15 @@ char* employeeLogin() {
 // employee panel
 void employeePanel(char myEmail[])
 {
-    int choice;
+    int choice,employeeId;
+    char employeeName[100];
     int logoutFlag = 0;  // Flag to control when to log out
+
+
+    // Assuming you have logic to get employee ID and name based on email
+    employeeId = getEmployeeIdByEmail(myEmail);
+
+
 
     do
     {
@@ -63,10 +69,10 @@ void employeePanel(char myEmail[])
         switch (choice)
         {
             case 1:
-                printf("This module is under development\n");
+                addRequisition(employeeId);
             break;
             case 2:
-                printf("This module is under development\n");
+                 viewRequisition(employeeId);;
             break;
             case 3:
                 viewMyPayroll(myEmail);
@@ -278,4 +284,55 @@ int getNextEmployeeID() {
     }
     fclose(file);
     return maxID + 1;  // Return the next available ID
+}
+
+
+// Get employee ID by email
+int getEmployeeIdByEmail(char *email) {
+    FILE *file = fopen("employees.csv", "r");
+    if (file == NULL) {
+        printf("Unable to open employees file.\n");
+        return -1;
+    }
+
+    char line[MAX_LINE_LENGTH];
+    int id;
+    char empEmail[100];
+
+    while (fgets(line, sizeof(line), file)) {
+        if (sscanf(line, "%d,\"%*99[^\"]\",\"%99[^\"]\"", &id, empEmail)) {
+            if (strcmp(empEmail, email) == 0) {
+                fclose(file);
+                return id;
+            }
+        }
+    }
+
+    fclose(file);
+    return -1; // Return -1 if employee is not found
+}
+
+const char *getEmployeeNameById(int id) {
+    static char empName[100]; // Static to allow returning a pointer
+    FILE *file = fopen("employees.csv", "r");
+    if (file == NULL) {
+        printf("Unable to open employees file.\n");
+        return "Unknown";
+    }
+
+    char line[500];
+    int empId;
+
+    while (fgets(line, sizeof(line), file)) {
+        // Parse the CSV line
+        if (sscanf(line, "%d,\"%99[^\"]\"", &empId, empName)) {
+            if (empId == id) {
+                fclose(file);
+                return empName;
+            }
+        }
+    }
+
+    fclose(file);
+    return "Unknown"; // If no matching ID is found
 }

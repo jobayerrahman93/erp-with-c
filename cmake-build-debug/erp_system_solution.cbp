@@ -87,7 +87,7 @@
 		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/admin.c">
 			<Option target="erp_system_solution"/>
 		</Unit>
-		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/emp_salary.c">
+		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/emp_activity.c">
 			<Option target="erp_system_solution"/>
 		</Unit>
 		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/employee.c">
@@ -97,6 +97,9 @@
 			<Option target="erp_system_solution"/>
 		</Unit>
 		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/main.c">
+			<Option target="erp_system_solution"/>
+		</Unit>
+		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/requisition.c">
 			<Option target="erp_system_solution"/>
 		</Unit>
 		<Unit filename="C:/Users/Kowshik/OneDrive/Desktop/project/erp-with-cplus-main/salary.c">
