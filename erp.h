@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define MAX_LINE_LENGTH 1024
 
@@ -17,8 +18,10 @@ typedef struct
     char designation[100];
     char password[30];
     int status;
-    char created_at [100];
+    char created_at[100];
+    char last_paid[20]; // Add this field to track last salary paid date
 } Employee;
+
 
 // Admin Structure
 typedef struct
@@ -31,6 +34,19 @@ typedef struct
    char created_at [100];;
 } Admin;
 
+
+// Salary record structure for salary payment information
+typedef struct {
+    int id;
+    char name[50];
+    double base_salary;
+    double additions;
+    double deductions;
+    double total_salary;
+    char month[20];
+    char paid_date[20];
+} SalaryRecord;
+
 // Function Declarations
 int adminLogin();
 void adminPanel();
@@ -42,7 +58,19 @@ int getNextEmployeeID();
 int getNextAdminID();
 void insertAdmin();
 void viewAllAdmin();
-int employeeLogin();
-void employeePanel();
+char* employeeLogin();
+void employeePanel(char myEmail[]);
+void insertPayroll();
+void viewPayrollForAdmin();
+void viewMyPayroll(char myEmail[]);
+void addRequisition(int employeeId);
+int getEmployeeIdByEmail(char *email);
+const char *getEmployeeNameById(int id);
+void viewRequisition(int employeeId);
+void viewAllRequisitionForAdmin();
+void addActivity(int employeeId);
+void viewActivities(int employeeId);
+void viewActivitiesForAdmin();
+
 
 #endif // ERP_H
