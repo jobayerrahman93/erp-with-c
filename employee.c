@@ -204,11 +204,160 @@ void calculatePayroll()
     insertPayroll();
 }
 
-void generateSalaryReport()
-{
-    printf("Generate and Send Salary Report Functionality\n");
+
+// Function to generate and send salary report
+
+void generateSalaryReport() {
+    FILE *file = fopen("employees.csv", "r");
+    if (file == NULL) {
+        printf("Unable to open employees.csv\n");
+        return;
+    }
+
+    char line[MAX_LINE_LENGTH];
+    int recordCount = 0;
+    int employeeId;
+    char month[8];
+    int choice;
+
+    // Ask the user if they want to send the report by employee ID or all employees
+    printf("Do you want to send the salary report by Employee ID or All Employees?\n");
+    printf("1. By Employee ID\n");
+    printf("2. All Employees\n");
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+
+    // Show employee list if user selects "By Employee ID"
+    if (choice == 1) {
+        printf("\nList of Employees:\n");
+        printf("ID\tName\t\tEmail\n");
+        printf("-------------------------------\n");
+
+        // Skip header row in employees.csv
+        fgets(line, sizeof(line), file);
+
+        // List all employees
+        while (fgets(line, sizeof(line), file)) {
+            int id, status;
+            char name[50], email[50], designation[50], password[50], createdAt[20];
+            double salary;
+
+            if (sscanf(line, "%d,%49[^,],%49[^,],%lf,%49[^,],%49[^,],%d,%19s",
+                &id, name, email, &salary, designation, password, &status, createdAt) == 8) {
+
+                // Only list active employees
+                if (status == 1) {
+                    printf("%d\t%s\t%s\n", id, name, email);
+                }
+            }
+        }
+
+        // Ask for employee ID after showing the list
+        printf("\nEnter Employee ID to send salary report: ");
+        scanf("%d", &employeeId);
+    } else {
+        employeeId = 0; // For "All Employees", use 0
+    }
+
+    // Ask for the month for the salary report
+    printf("Enter the month for the salary report (YYYY-MM): ");
+    scanf("%s", month);
+
+    printf("\nGenerating Salary Report...\n");
+    printf("------------------------------------------------------------\n");
+
+    // Rewind the file pointer back to the beginning
+    rewind(file);
+
+    // Skip header row in employees.csv again
+    fgets(line, sizeof(line), file);
+
+    // Process each employee record
+    int activeEmployeeProcessed = 0;
+    while (fgets(line, sizeof(line), file)) {
+        int id, status;
+        char name[50], email[50], designation[50], password[50], createdAt[20];
+        double salary;
+
+        // Parse CSV line for employees.csv
+        if (sscanf(line, "%d,%49[^,],%49[^,],%lf,%49[^,],%49[^,],%d,%19s",
+            &id, name, email, &salary, designation, password, &status, createdAt) == 8) {
+
+            // Only process active employees
+            if (status == 1) {
+                // If choosing "All Employees" or matching the selected Employee ID
+                if (employeeId == 0 || id == employeeId) {
+                    activeEmployeeProcessed = 1;
+                    int salaryFound = 0; // Flag to track if the salary for the month was found
+
+                    // Open emp_salary.csv to find the salary for the selected month
+                    FILE *salaryFile = fopen("emp_salary.csv", "r");
+                    if (salaryFile == NULL) {
+                        printf("Unable to open emp_salary.csv\n");
+                        fclose(file);
+                        return;
+                    }
+
+                    // Skip the header in emp_salary.csv
+                    fgets(line, sizeof(line), salaryFile);
+
+                    while (fgets(line, sizeof(line), salaryFile)) {
+                        int salaryId;
+                        char monthInRecord[8];
+                        double baseSalary, additions, deductions, totalSalary;
+                        char paidDate[20];
+
+                        if (sscanf(line, "%d,%49[^,],%lf,%lf,%lf,%lf,%7s,%19s",
+                            &salaryId, name, &baseSalary, &additions, &deductions, &totalSalary, monthInRecord, paidDate) == 8) {
+
+                            // Check if employee ID and month match
+                            if (salaryId == id && strcmp(monthInRecord, month) == 0) {
+                                printf("Found Salary for %s for month %s: %.2f\n", name, month, totalSalary);
+                                salaryFound = 1;
+
+                                // Send email with the salary details for the selected month
+                                printf("Sending salary report to %s for month %s\n", name, month);
+
+                                // Write salary report to a file for emailing later
+                                FILE *report = fopen("salary_report.txt", "a");
+                                if (report != NULL) {
+                                    fprintf(report, "ID: %d, Name: %s, Email: %s, Salary: %.2f, Month: %s\n",
+                                            id, name, email, totalSalary, month);
+                                    fclose(report);
+                                }
+
+                                printf("%d",totalSalary);
+
+                                // Send email
+                                char command[512];
+                                snprintf(command, sizeof(command), "node sendEmail.js \"%s\" \"%s\" %s %.2f", email, name, month, totalSalary);
+
+
+                                system(command);
+                                recordCount++;
+                            }
+                        }
+                    }
+                    fclose(salaryFile);
+
+                    // If no salary found for this employee after checking all records
+                    if (!salaryFound) {
+                        printf("No salary found for %s in month %s.\n", name, month);
+                    }
+                }
+            }
+        }
+    }
+
+    fclose(file);
+
+    if (recordCount == 0 && !activeEmployeeProcessed) {
+        printf("No active employees found for the selected criteria.\n");
+    }
 }
 
+
+//get next employee id
 int getNextEmployeeID() {
     FILE *file = fopen("employees.csv", "r");
     if (file == NULL) {
