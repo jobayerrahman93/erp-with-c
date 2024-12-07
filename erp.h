@@ -71,6 +71,7 @@ void viewAllRequisitionForAdmin();
 void addActivity(int employeeId);
 void viewActivities(int employeeId);
 void viewActivitiesForAdmin();
-
+void addRequisitionItem();
+void viewAllRequisitionItems();
 
 #endif // ERP_H

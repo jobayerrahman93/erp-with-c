@@ -81,9 +81,11 @@ void adminPanel()
         printf("5. Generate and Send Salary Report\n");
         printf("6. Add Admin\n");
         printf("7. View Admin\n");
-        printf("8. View Requistion\n");
-        printf("9. View Activites\n");
-        printf("10. Logout\n\n");
+        printf("8. Add Requisition Item\n");
+        printf("9. View Requisition Items\n");
+        printf("10. View Requisitions\n");
+        printf("11. View Activities\n");
+        printf("12. Logout\n\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -113,13 +115,18 @@ void adminPanel()
                 viewAllAdmin();
             break;
             case 8:
-                viewAllRequisitionForAdmin();
-
+                addRequisitionItem();
             break;
             case 9:
-                viewActivitiesForAdmin();
+                viewAllRequisitionItems();
             break;
             case 10:
+                viewAllRequisitionForAdmin();
+            break;
+            case 11:
+                viewActivitiesForAdmin();
+            break;
+            case 12:
                 printf("Logging out...\n");
             logoutFlag = 1;
             break;
@@ -256,6 +263,92 @@ void viewAllAdmin()
             // Print the admin information
             printf("%d, %s, %s, %d, %s\n", adm.id, adm.name, adm.email, adm.status, adm.created_at);
         }
+    }
+
+    fclose(file);
+}
+
+
+// add requisition item
+void addRequisitionItem()
+{
+    char itemName[100];
+    int quantity;
+    char description[255];
+    FILE *file, *tempFile;
+    int lastID = 0, newID;
+
+    // Open the file in read mode to determine the last ID
+    file = fopen("requisitions.csv", "r");
+    if (file != NULL)
+    {
+        char line[512];
+        while (fgets(line, sizeof(line), file))
+        {
+            // Extract the ID from the line (first value before the comma)
+            int currentID;
+            sscanf(line, "%d,", &currentID);
+            lastID = currentID; // Update the last ID
+        }
+        fclose(file);
+    }
+
+    // Increment the last ID to generate a new ID
+    newID = lastID + 1;
+
+    // Open the file in append mode
+    file = fopen("requisitions.csv", "a");
+    if (file == NULL)
+    {
+        printf("Error opening requisitions file.\n");
+        return;
+    }
+
+    // Collect requisition details
+    printf("Enter Item Name: ");
+    scanf(" %[^\n]", itemName); // Allows spaces in input
+    printf("Enter Quantity: ");
+    scanf("%d", &quantity);
+    printf("Enter Description: ");
+    scanf(" %[^\n]", description);
+
+    // Save the details to the file
+    fprintf(file, "%d,%s,%d,%s\n", newID, itemName, quantity, description);
+    fclose(file);
+
+    printf("Requisition item added successfully with ID: %d\n", newID);
+}
+
+
+// view requisition item
+void viewAllRequisitionItems()
+{
+    FILE *file;
+    char line[512];
+
+    // Open the file in read mode
+    file = fopen("requisitions.csv", "r");
+    if (file == NULL)
+    {
+        printf("No requisitions found or error opening the file.\n");
+        return;
+    }
+
+    printf("\n______________Requisition Items______________\n");
+    printf("ID\tItem Name\tQuantity\tDescription\n");
+    printf("----------------------------------------------------------\n");
+
+    // Read each line and display it
+    while (fgets(line, sizeof(line), file))
+    {
+        int id, quantity;
+        char itemName[100], description[255];
+
+        // Parse the line to extract data
+        sscanf(line, "%d,%99[^,],%d,%254[^\n]", &id, itemName, &quantity, description);
+
+        // Display the data
+        printf("%d\t%s\t\t%d\t\t%s\n", id, itemName, quantity, description);
     }
 
     fclose(file);
