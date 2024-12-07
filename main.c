@@ -34,7 +34,7 @@ int main()
 
                 char* loggedInEmail = employeeLogin();
             if (loggedInEmail != NULL) {
-                employeePanel(loggedInEmail);  // Pass the email to employeePanel
+                employeePanel(loggedInEmail);
             } else {
                 printf("Email or password is wrong. Exiting...\n");
             }
@@ -42,7 +42,7 @@ int main()
 
             case 3:
                 printf("Exiting...\n");
-            exitFlag = 1;  // Exit the loop and terminate the program
+            exitFlag = 1;
             break;
 
             default:

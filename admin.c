@@ -275,33 +275,21 @@ void addRequisitionItem()
     char itemName[100];
     int quantity;
     char description[255];
-    FILE *file, *tempFile;
-    int lastID = 0, newID;
-
-    // Open the file in read mode to determine the last ID
-    file = fopen("requisitions.csv", "r");
-    if (file != NULL)
-    {
-        char line[512];
-        while (fgets(line, sizeof(line), file))
-        {
-            // Extract the ID from the line (first value before the comma)
-            int currentID;
-            sscanf(line, "%d,", &currentID);
-            lastID = currentID; // Update the last ID
-        }
-        fclose(file);
-    }
-
-    // Increment the last ID to generate a new ID
-    newID = lastID + 1;
+    FILE *file;
 
     // Open the file in append mode
-    file = fopen("requisitions.csv", "a");
+    file = fopen("requisitions.csv", "a+");
     if (file == NULL)
     {
         printf("Error opening requisitions file.\n");
         return;
+    }
+
+    // Check if file is empty and add headers
+    fseek(file, 0, SEEK_END);
+    if (ftell(file) == 0)
+    {
+        fprintf(file, "id,item_name,quantity,description\n");
     }
 
     // Collect requisition details
@@ -312,12 +300,30 @@ void addRequisitionItem()
     printf("Enter Description: ");
     scanf(" %[^\n]", description);
 
+    // Generate an auto-incrementing ID
+    int id = 1;
+    FILE *tempFile = fopen("requisitions.csv", "r");
+    if (tempFile != NULL)
+    {
+        char line[512];
+        while (fgets(line, sizeof(line), tempFile))
+        {
+            int lastId;
+            if (sscanf(line, "%d,%*[^,],%*d,%*[^,]", &lastId) == 1)
+            {
+                id = lastId + 1;
+            }
+        }
+        fclose(tempFile);
+    }
+
     // Save the details to the file
-    fprintf(file, "%d,%s,%d,%s\n", newID, itemName, quantity, description);
+    fprintf(file, "%d,%s,%d,%s\n", id, itemName, quantity, description);
     fclose(file);
 
-    printf("Requisition item added successfully with ID: %d\n", newID);
+    printf("Requisition item added successfully!\n");
 }
+
 
 
 // view requisition item
@@ -338,17 +344,26 @@ void viewAllRequisitionItems()
     printf("ID\tItem Name\tQuantity\tDescription\n");
     printf("----------------------------------------------------------\n");
 
-    // Read each line and display it
+    // Skip the header line
+    if (fgets(line, sizeof(line), file) == NULL)
+    {
+        printf("No requisitions found in the file.\n");
+        fclose(file);
+        return;
+    }
+
+    // Read and display each data line
     while (fgets(line, sizeof(line), file))
     {
         int id, quantity;
         char itemName[100], description[255];
 
         // Parse the line to extract data
-        sscanf(line, "%d,%99[^,],%d,%254[^\n]", &id, itemName, &quantity, description);
-
-        // Display the data
-        printf("%d\t%s\t\t%d\t\t%s\n", id, itemName, quantity, description);
+        if (sscanf(line, "%d,%99[^,],%d,%254[^\n]", &id, itemName, &quantity, description) == 4)
+        {
+            // Display the data
+            printf("%d\t%s\t\t%d\t\t%s\n", id, itemName, quantity, description);
+        }
     }
 
     fclose(file);

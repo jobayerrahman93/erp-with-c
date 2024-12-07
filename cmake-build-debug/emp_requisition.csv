@@ -1,5 +1,3 @@
-id,name,date,requisition
-2,imon,2024-11-16,"need pen"
-2,imon,2024-11-16,"need a marker"
-1,ikram,2024-11-16,"need mouse"
-3,masum,2024-11-16,"need tea"
+id,name,date,requisition,quantity
+1,ikram,2024-12-07,pen,5
+1,ikram,2024-12-07,book,3
